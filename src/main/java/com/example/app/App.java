@@ -6,21 +6,44 @@ import org.apache.commons.lang3.StringUtils;
 
 public class App {
 
-    private static final Logger logger = LoggerFactory.getLogger(App.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-        String name = "CI/CD Pipeline";
 
-        if (StringUtils.isNotBlank(name)) {
+        logger.info("Application Started");
+
+        try {
+
+            String name = "DevOps Engineer";
+
             String message = greet(name);
-            logger.info(message);
+
+            logger.info("Generated Message: {}", message);
+
             System.out.println(message);
-        } else {
-            logger.error("Name is empty!");
+
+        } catch (IllegalArgumentException e) {
+
+            logger.error("Exception Occurred: {}", e.getMessage());
+
+        } finally {
+
+            logger.info("Application Finished");
         }
     }
 
     public static String greet(String name) {
-        return "Hello, " + name + "! Welcome to Maven CI/CD Demo.";
+
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException(
+                    "Name cannot be null or empty"
+            );
+        }
+
+        return String.format(
+                "Hello, %s! Welcome to Advanced Maven CI/CD Demo.",
+                name
+        );
     }
 }
