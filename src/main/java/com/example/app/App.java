@@ -1,26 +1,67 @@
 package com.example.app;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
+import java.util.ArrayList;
 
 public class App {
 
-    private static final Logger logger = LoggerFactory.getLogger(App.class);
+    static ArrayList<String> products = new ArrayList<>();
+    static ArrayList<Integer> quantities = new ArrayList<>();
 
     public static void main(String[] args) {
-        String name = "CI/CD Pipeline";
 
-        if (StringUtils.isNotBlank(name)) {
-            String message = greet(name);
-            logger.info(message);
-            System.out.println(message);
+        addProduct("Laptop", 10);
+        addProduct("Mouse", 25);
+        addProduct("Keyboard", 15);
+
+        displayInventory();
+
+        updateQuantity("Mouse", 30);
+
+        System.out.println("\nAfter Update:");
+        displayInventory();
+    }
+
+    public static void addProduct(String product, int quantity) {
+
+        products.add(product);
+        quantities.add(quantity);
+
+        System.out.println(product + " added successfully");
+    }
+
+    public static void updateQuantity(String product, int newQuantity) {
+
+        int index = products.indexOf(product);
+
+        if (index != -1) {
+            quantities.set(index, newQuantity);
+            System.out.println(product + " quantity updated");
         } else {
-            logger.error("Name is empty!");
+            System.out.println(product + " not found");
         }
     }
 
-    public static String greet(String name) {
-        return "Hello, " + name + "! Welcome to Maven CI/CD Demo.";
+    public static int getQuantity(String product) {
+
+        int index = products.indexOf(product);
+
+        if (index != -1) {
+            return quantities.get(index);
+        }
+
+        return -1;
+    }
+
+    public static void displayInventory() {
+
+        System.out.println("\nInventory Details:");
+
+        for (int i = 0; i < products.size(); i++) {
+
+            System.out.println(
+                "Product: " + products.get(i)
+                + " | Quantity: " + quantities.get(i)
+            );
+        }
     }
 }
